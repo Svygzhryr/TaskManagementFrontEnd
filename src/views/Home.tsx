@@ -10,13 +10,13 @@ export default function Login() {
         </h3>
         <div className="flex justify-evenly">
           <Link
-            to="register"
+            to="/register"
             className="w-32 px-4 py-2 border-2 border-solid border-transparent hover:text-red-400 hover:border-red-400 transition-all"
           >
             Sign up
           </Link>
           <Link
-            to="login"
+            to="/login"
             className="w-32 px-4 py-2 border-2 border-solid border-transparent hover:text-blue-400 hover:border-blue-400 transition-all
             "
           >
