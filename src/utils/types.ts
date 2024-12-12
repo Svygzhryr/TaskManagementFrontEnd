@@ -11,3 +11,5 @@ export interface RegistrationFormData {
   password: string;
   confirmPassword: string;
 }
+
+export type LoginFormData = Pick<RegistrationFormData, "username" | "password">;
