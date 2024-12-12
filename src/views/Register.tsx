@@ -61,7 +61,7 @@ export default function Register() {
           >
             Submit
           </button>
-          <Link to="/home" className="text-sm hover:underline">
+          <Link to="/" className="text-sm hover:underline">
             Back to home
           </Link>
         </div>
