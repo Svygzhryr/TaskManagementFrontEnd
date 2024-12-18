@@ -22,16 +22,19 @@ export const VALIDATION_SCHEME = {
       message: "Password must be at least 8 characters long",
     },
     lowercase: {
-      rule: /[a-z]/g,
+      rule: /[a-z]/,
       message: "Password must contain at least one lowercase letter",
     },
     uppercase: {
-      rule: /[A-Z]/g,
+      rule: /[A-Z]/,
       message: "Password must contain at least one uppercase letter",
     },
     number: {
-      rule: /[0-9]/g,
+      rule: /[0-9]/,
       message: "Password must contain at least one digit",
+    },
+    confirmation: {
+      message: "Passwords doesn't match",
     },
   },
 };

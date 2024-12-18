@@ -33,34 +33,70 @@ export default function Register() {
     const target = e.target as HTMLInputElement;
     const value = target.value;
 
-    console.log(value);
-
-    console.log(rule1.test(value));
-
-    // возможно переделать в свич
-    if (rule1.test(value)) {
-      setUsernameError(message1);
-    } else if (!rule2.test(value)) {
-      setUsernameError(message2);
-    } else if (!rule3.test(value)) {
-      setUsernameError(message3);
-    } else {
-      setUsernameError("");
+    switch (true) {
+      case rule1.test(value):
+        setUsernameError(message1);
+        break;
+      case !rule2.test(value):
+        setUsernameError(message2);
+        break;
+      case !rule3.test(value):
+        setUsernameError(message3);
+        break;
+      default:
+        setUsernameError("");
+        break;
     }
 
     setUsername(value);
   }
 
   function passwordInputChange(e: ChangeEvent): void {
+    const { general, password } = VALIDATION_SCHEME;
+    const { rule: rule1, message: message1 } = general.not_empty;
+    const { rule: rule2, message: message2 } = password.lowercase;
+    const { rule: rule3, message: message3 } = password.uppercase;
+    const { rule: rule4, message: message4 } = password.number;
+    const { rule: rule5, message: message5 } = password.password_length;
+
     const target = e.target as HTMLInputElement;
     const value = target.value;
+
+    switch (true) {
+      case rule1.test(value):
+        setPasswordError(message1);
+        break;
+      case !rule2.test(value):
+        setPasswordError(message2);
+        break;
+      case !rule3.test(value):
+        setPasswordError(message3);
+        break;
+      case !rule4.test(value):
+        setPasswordError(message4);
+        break;
+      case !rule5.test(value):
+        setPasswordError(message5);
+        break;
+      default:
+        setPasswordError("");
+        break;
+    }
 
     setPassword(value);
   }
 
   function confirmationInputChange(e: ChangeEvent): void {
     const target = e.target as HTMLInputElement;
+    const { confirmation } = VALIDATION_SCHEME.password;
     const value = target.value;
+
+    if (value !== password) {
+      setConfirmError(confirmation.message);
+    } else {
+      setConfirmError("");
+    }
+
     setConfirmPassword(value);
   }
 
@@ -82,16 +118,23 @@ export default function Register() {
           <Cinput
             placeholder="Password"
             type="password"
+            error={passwordError}
             handleOnChange={passwordInputChange}
           />
           <Cinput
             placeholder="Confirm password"
             type="password"
+            error={confirmError}
             handleOnChange={confirmationInputChange}
           />
           <button
             disabled={
-              !username.length || !password.length || !confirmPassword.length
+              !username.length ||
+              !password.length ||
+              !confirmPassword.length ||
+              !!passwordError ||
+              !!usernameError ||
+              !!confirmError
             }
             type="submit"
             className="px-8 py-2 mt-2 bg-neutral-800 w-auto text-xl hover:bg-neutral-700 transition-all disabled:pointer-events-none disabled:text-neutral-600"
