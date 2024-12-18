@@ -2,10 +2,14 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Link } from "react-router";
 import Cinput from "../components/Cinput";
 import { sendLoginRequest } from "../utils/api";
+import { VALIDATION_SCHEME } from "../utils/validation";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [usernameError, setUsernameError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
   function handleLoginSubmit(e: FormEvent): void {
     e.preventDefault();
@@ -19,13 +23,65 @@ export default function Login() {
   }
 
   function usernameInputChange(e: ChangeEvent): void {
+    // надо бы вынести в хук
+    const { username, general } = VALIDATION_SCHEME;
+    const { rule: rule1, message: message1 } = general.not_empty;
+    const { rule: rule2, message: message2 } = username.name_length;
+    const { rule: rule3, message: message3 } = username.special_chars;
     const target = e.target as HTMLInputElement;
-    setUsername(target.value);
+    const value = target.value;
+
+    switch (true) {
+      case rule1.test(value):
+        setUsernameError(message1);
+        break;
+      case !rule2.test(value):
+        setUsernameError(message2);
+        break;
+      case !rule3.test(value):
+        setUsernameError(message3);
+        break;
+      default:
+        setUsernameError("");
+        break;
+    }
+
+    setUsername(value);
   }
 
   function passwordInputChange(e: ChangeEvent): void {
+    const { general, password } = VALIDATION_SCHEME;
+    const { rule: rule1, message: message1 } = general.not_empty;
+    const { rule: rule2, message: message2 } = password.lowercase;
+    const { rule: rule3, message: message3 } = password.uppercase;
+    const { rule: rule4, message: message4 } = password.number;
+    const { rule: rule5, message: message5 } = password.password_length;
+
     const target = e.target as HTMLInputElement;
-    setPassword(target.value);
+    const value = target.value;
+
+    switch (true) {
+      case rule1.test(value):
+        setPasswordError(message1);
+        break;
+      case !rule2.test(value):
+        setPasswordError(message2);
+        break;
+      case !rule3.test(value):
+        setPasswordError(message3);
+        break;
+      case !rule4.test(value):
+        setPasswordError(message4);
+        break;
+      case !rule5.test(value):
+        setPasswordError(message5);
+        break;
+      default:
+        setPasswordError("");
+        break;
+    }
+
+    setPassword(value);
   }
 
   return (
@@ -36,16 +92,24 @@ export default function Login() {
           <Cinput
             placeholder="Username"
             type="text"
+            error={usernameError}
             handleOnChange={usernameInputChange}
           />
           <Cinput
             placeholder="Password"
             type="text"
+            error={passwordError}
             handleOnChange={passwordInputChange}
           />
           <button
+            disabled={
+              !username.length ||
+              !password.length ||
+              !!passwordError ||
+              !!usernameError
+            }
             type="submit"
-            className="px-8 py-2 mt-2 bg-neutral-800 w-auto text-xl hover:bg-neutral-700 transition-all"
+            className="px-8 py-2 mt-2 bg-neutral-800 w-auto text-xl hover:bg-neutral-700 transition-all disabled:pointer-events-none disabled:text-neutral-600"
           >
             Submit
           </button>
