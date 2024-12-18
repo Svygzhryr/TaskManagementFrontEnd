@@ -3,6 +3,7 @@ import { ChangeEvent } from "react";
 export interface CinputProps {
   placeholder: string;
   handleOnChange?: (e: ChangeEvent) => void;
+  error?: string | null;
   type: string;
 }
 
