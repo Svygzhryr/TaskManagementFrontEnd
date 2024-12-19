@@ -107,7 +107,7 @@ export default function Register() {
   return (
     <>
       <form onSubmit={handleRegisterSubmit}>
-        <div className="flex flex-col gap-4 absolute top-1/2 left-1/2 text-center items-center -translate-x-1/2 -translate-y-1/2">
+        <div className="flex flex-col gap-2 absolute top-1/2 left-1/2 text-center items-center -translate-x-1/2 -translate-y-1/2">
           <h2 className="text-3xl mb-4">Sign up</h2>
           <Cinput
             placeholder="Username"
