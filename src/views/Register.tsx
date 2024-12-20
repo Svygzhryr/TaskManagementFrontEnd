@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import Cinput from "../components/Cinput";
 import { sendRegistrationRequest } from "../utils/api";
 import { VALIDATION_SCHEME } from "../utils/validation";
+import { ButtonSubmit } from "../components/ButtonSubmit";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -19,7 +20,7 @@ export default function Register() {
     const formData = {
       username,
       password,
-      // confirmPassword,
+      confirmPassword,
     };
 
     console.log(formData);
@@ -129,20 +130,16 @@ export default function Register() {
             error={confirmError}
             handleOnChange={confirmationInputChange}
           />
-          <button
-            disabled={
-              !username.length ||
-              !password.length ||
-              !confirmPassword.length ||
-              !!passwordError ||
-              !!usernameError ||
-              !!confirmError
-            }
-            type="submit"
-            className="px-8 py-2 mt-2 bg-main-800 w-auto text-xl hover:bg-main-700 transition-all disabled:pointer-events-none disabled:text-main-600"
-          >
-            Submit
-          </button>
+          <ButtonSubmit
+            {...{
+              username,
+              password,
+              confirmPassword,
+              usernameError,
+              passwordError,
+              confirmError,
+            }}
+          />
           <Link to="/" className="text-sm hover:underline">
             Back to home
           </Link>

@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import Cinput from "../components/Cinput";
 import { sendLoginRequest } from "../utils/api";
 import { VALIDATION_SCHEME } from "../utils/validation";
+import { ButtonSubmit } from "../components/ButtonSubmit";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -102,18 +103,7 @@ export default function Login() {
             handleOnChange={passwordInputChange}
           />
           {/* кнопку можно вынести в компонент */}
-          <button
-            disabled={
-              !username.length ||
-              !password.length ||
-              !!passwordError ||
-              !!usernameError
-            }
-            type="submit"
-            className="px-8 py-2 mt-2 bg-main-800 w-auto text-xl hover:bg-main-700 transition-all disabled:pointer-events-none disabled:text-main-600"
-          >
-            Submit
-          </button>
+          <ButtonSubmit {...{ username, password }} />
           <Link to="/" className="text-sm hover:underline">
             Back to home
           </Link>
