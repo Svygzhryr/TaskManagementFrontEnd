@@ -10,7 +10,7 @@ export interface CinputProps {
 export interface RegistrationFormData {
   username: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
 }
 
 export type LoginFormData = Pick<RegistrationFormData, "username" | "password">;

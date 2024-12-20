@@ -19,8 +19,10 @@ export default function Register() {
     const formData = {
       username,
       password,
-      confirmPassword,
+      // confirmPassword,
     };
+
+    console.log(formData);
 
     sendRegistrationRequest(formData);
   }
