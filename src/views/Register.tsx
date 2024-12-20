@@ -137,7 +137,7 @@ export default function Register() {
               !!confirmError
             }
             type="submit"
-            className="px-8 py-2 mt-2 bg-neutral-800 w-auto text-xl hover:bg-neutral-700 transition-all disabled:pointer-events-none disabled:text-neutral-600"
+            className="px-8 py-2 mt-2 bg-main-800 w-auto text-xl hover:bg-main-700 transition-all disabled:pointer-events-none disabled:text-main-600"
           >
             Submit
           </button>

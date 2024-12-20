@@ -16,9 +16,9 @@ p,
 title {
     font-size: 24px;
     font-family: "Raleway", sans-serif;
-    color: #e5e5e5;
+    color: theme("colors.main.text");
 }
 
 body {
-    background-color: #000014;
+    background-color: theme("colors.main.900");
 }
