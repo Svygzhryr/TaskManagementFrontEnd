@@ -20,7 +20,7 @@ export default function Register() {
     const formData = {
       username,
       password,
-      confirmPassword,
+      confirm_password: confirmPassword,
     };
 
     console.log(formData);
@@ -130,16 +130,7 @@ export default function Register() {
             error={confirmError}
             handleOnChange={confirmationInputChange}
           />
-          <ButtonSubmit
-            {...{
-              username,
-              password,
-              confirmPassword,
-              usernameError,
-              passwordError,
-              confirmError,
-            }}
-          />
+          <ButtonSubmit {...{ username, password, confirmPassword }} />
           <Link to="/" className="text-sm hover:underline">
             Back to home
           </Link>
