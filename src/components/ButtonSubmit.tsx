@@ -16,7 +16,7 @@ export const ButtonSubmit: FC<Record<string, string | undefined>> = (props) => {
     });
 
     setIsDisabled(
-      !(values.every((value) => !!value) && errors.every((error) => !error)),
+      !(values.every((value) => !!value) && errors.every((error) => !error))
     );
   }, [props]);
 

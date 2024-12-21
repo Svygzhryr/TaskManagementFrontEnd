@@ -14,7 +14,7 @@ export default function Register() {
   const [passwordError, setPasswordError] = useState<string>("");
   const [confirmError, setConfirmError] = useState<string>("");
 
-  function handleRegisterSubmit(e: FormEvent): void {
+  async function handleRegisterSubmit(e: FormEvent): Promise<void> {
     e.preventDefault();
 
     const formData = {
@@ -23,9 +23,9 @@ export default function Register() {
       confirm_password: confirmPassword,
     };
 
-    console.log(formData);
+    const tokens = await sendRegistrationRequest(formData);
 
-    sendRegistrationRequest(formData);
+    console.log(tokens);
   }
 
   function usernameInputChange(e: ChangeEvent): void {

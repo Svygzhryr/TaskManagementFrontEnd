@@ -12,7 +12,7 @@ export default function Login() {
   const [usernameError, setUsernameError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
 
-  function handleLoginSubmit(e: FormEvent): void {
+  async function handleLoginSubmit(e: FormEvent): Promise<void> {
     e.preventDefault();
 
     const formData = {
@@ -20,7 +20,9 @@ export default function Login() {
       password,
     };
 
-    sendLoginRequest(formData);
+    const tokens = await sendLoginRequest(formData);
+
+    console.log(tokens);
   }
 
   function usernameInputChange(e: ChangeEvent): void {
