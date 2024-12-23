@@ -13,4 +13,11 @@ export interface RegistrationFormData {
   confirmPassword?: string;
 }
 
+export interface AuthResponse {
+  username: string;
+  access: string;
+  refresh: string;
+  isAuthorized: boolean;
+}
+
 export type LoginFormData = Pick<RegistrationFormData, "username" | "password">;

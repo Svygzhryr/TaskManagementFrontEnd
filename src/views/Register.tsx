@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link } from "react-router";
 import Cinput from "../components/Cinput";
 import { sendRegistrationRequest } from "../utils/api";
 import { VALIDATION_SCHEME } from "../utils/validation";
 import { ButtonSubmit } from "../components/ButtonSubmit";
+import { UserContext } from "../utils/context";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -13,6 +14,8 @@ export default function Register() {
   const [usernameError, setUsernameError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [confirmError, setConfirmError] = useState<string>("");
+
+  const { setData } = useContext(UserContext);
 
   async function handleRegisterSubmit(e: FormEvent): Promise<void> {
     e.preventDefault();
@@ -25,7 +28,15 @@ export default function Register() {
 
     const tokens = await sendRegistrationRequest(formData);
 
-    console.log(tokens);
+    if (tokens) {
+      localStorage.setItem("access", tokens.access);
+      localStorage.setItem("refresh", tokens.refresh);
+      localStorage.setItem("username", tokens.username);
+      setData(tokens);
+      window.location.href = "/";
+    } else {
+      console.error("Unable to authenticate");
+    }
   }
 
   function usernameInputChange(e: ChangeEvent): void {
@@ -102,10 +113,6 @@ export default function Register() {
 
     setConfirmPassword(value);
   }
-
-  useEffect(() => {
-    console.log(usernameError);
-  }, [usernameError]);
 
   return (
     <>

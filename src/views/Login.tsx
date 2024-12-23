@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link } from "react-router";
+import { ButtonSubmit } from "../components/ButtonSubmit";
 import Cinput from "../components/Cinput";
 import { sendLoginRequest } from "../utils/api";
+import { UserContext } from "../utils/context";
 import { VALIDATION_SCHEME } from "../utils/validation";
-import { ButtonSubmit } from "../components/ButtonSubmit";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,8 @@ export default function Login() {
 
   const [usernameError, setUsernameError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+
+  const { setData } = useContext(UserContext);
 
   async function handleLoginSubmit(e: FormEvent): Promise<void> {
     e.preventDefault();
@@ -22,7 +25,15 @@ export default function Login() {
 
     const tokens = await sendLoginRequest(formData);
 
-    console.log(tokens);
+    if (tokens) {
+      localStorage.setItem("access", tokens.access);
+      localStorage.setItem("refresh", tokens.refresh);
+      localStorage.setItem("username", tokens.username);
+      setData(tokens);
+      window.location.href = "/";
+    } else {
+      console.error("Unable to authenticate");
+    }
   }
 
   function usernameInputChange(e: ChangeEvent): void {

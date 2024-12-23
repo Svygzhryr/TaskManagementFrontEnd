@@ -1,4 +1,4 @@
-import { LoginFormData, RegistrationFormData } from "./types";
+import { AuthResponse, LoginFormData, RegistrationFormData } from "./types";
 
 export async function sendLoginRequest(formData: LoginFormData) {
   try {
@@ -10,7 +10,7 @@ export async function sendLoginRequest(formData: LoginFormData) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     const data = await response.json();
@@ -25,7 +25,9 @@ export async function sendLoginRequest(formData: LoginFormData) {
   }
 }
 
-export async function sendRegistrationRequest(formData: RegistrationFormData) {
+export async function sendRegistrationRequest(
+  formData: RegistrationFormData,
+): Promise<AuthResponse | void> {
   try {
     const response = await fetch(
       `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
@@ -35,13 +37,16 @@ export async function sendRegistrationRequest(formData: RegistrationFormData) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     if (response.ok) {
-      const tokens = sendLoginRequest(formData);
-
-      return tokens;
+      const tokens = await sendLoginRequest(formData);
+      return {
+        ...tokens,
+        isAuthorized: true,
+        username: formData.username,
+      };
     } else {
       throw response.statusText;
     }
