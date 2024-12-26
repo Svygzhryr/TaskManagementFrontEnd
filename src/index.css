@@ -13,7 +13,8 @@ h5,
 h6,
 a,
 p,
-title {
+title,
+button {
     font-size: 24px;
     font-family: "Raleway", sans-serif;
     color: theme("colors.main.text");

@@ -21,9 +21,9 @@ export const initialData = {
   },
 };
 
-export const guest = {
+export const initialUser = {
   data: initialData,
   setData: () => {},
 };
 
-export const UserContext = createContext<UserContext>(guest);
+export const UserContext = createContext<UserContext>(initialUser);

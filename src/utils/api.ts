@@ -54,3 +54,5 @@ export async function sendRegistrationRequest(
     console.error(err);
   }
 }
+
+export async function refreshTokens(refresh: string) {}
