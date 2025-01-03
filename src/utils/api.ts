@@ -16,7 +16,7 @@ export async function sendLoginRequest(formData: LoginFormData) {
     const data = await response.json();
 
     if (response.ok) {
-      return data;
+      return { ...data, isAuthorized: true, username: formData.username };
     } else {
       throw response.statusText;
     }
@@ -42,11 +42,7 @@ export async function sendRegistrationRequest(
 
     if (response.ok) {
       const tokens = await sendLoginRequest(formData);
-      return {
-        ...tokens,
-        isAuthorized: true,
-        username: formData.username,
-      };
+      return tokens;
     } else {
       throw response.statusText;
     }
@@ -56,3 +52,5 @@ export async function sendRegistrationRequest(
 }
 
 export async function refreshTokens(refresh: string) {}
+
+export async function logout() {}

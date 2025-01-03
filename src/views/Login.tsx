@@ -24,6 +24,7 @@ export default function Login() {
     };
 
     const tokens = await sendLoginRequest(formData);
+    console.log(tokens);
 
     if (tokens) {
       localStorage.setItem("access", tokens.access);
