@@ -20,4 +20,9 @@ export interface AuthResponse {
   isAuthorized: boolean;
 }
 
+export interface Tokens {
+  access: string;
+  refresh: string;
+}
+
 export type LoginFormData = Pick<RegistrationFormData, "username" | "password">;

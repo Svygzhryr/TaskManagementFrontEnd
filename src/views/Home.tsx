@@ -2,15 +2,22 @@ import { useContext } from "react";
 import { Link } from "react-router";
 import { UserContext } from "../utils/context";
 import { ButtonPrimary } from "../components/ButtonPrimary";
+import { apiCall } from "../utils/api/auth";
 
 export default function Login() {
   const {
-    data: { isAuthorized, username },
+    data: { isAuthorized },
   } = useContext(UserContext);
 
   function handleUserLogout() {
+    apiCall("/auth/logout", "POST", "logout");
     localStorage.clear();
     window.location.reload();
+  }
+
+  async function handleMeClick() {
+    const response = await apiCall("/auth/user", "GET");
+    console.log(response);
   }
 
   return (
@@ -18,7 +25,11 @@ export default function Login() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
         {isAuthorized ? (
           <>
-            <h3>Welcome, {username}!</h3>
+            <h3 className="mb-3">
+              Welcome, юзернейм имени которого я не знаю потому что мне пришлось
+              убирать контекст!
+            </h3>
+            <ButtonPrimary text="GetMe" clickHandler={handleMeClick} />
             <ButtonPrimary text="Logout" clickHandler={handleUserLogout} />
           </>
         ) : (

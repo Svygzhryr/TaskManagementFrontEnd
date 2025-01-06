@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link } from "react-router";
 import { ButtonSubmit } from "../components/ButtonSubmit";
 import Cinput from "../components/Cinput";
-import { sendLoginRequest } from "../utils/api";
+import { apiCall } from "../utils/api/auth";
 import { UserContext } from "../utils/context";
 import { VALIDATION_SCHEME } from "../utils/validation";
 
@@ -23,13 +23,12 @@ export default function Login() {
       password,
     };
 
-    const tokens = await sendLoginRequest(formData);
+    const tokens = await apiCall("/auth/login", "POST", "", formData);
     console.log(tokens);
 
     if (tokens) {
       localStorage.setItem("access", tokens.access);
       localStorage.setItem("refresh", tokens.refresh);
-      localStorage.setItem("username", tokens.username);
       setData(tokens);
       window.location.href = "/";
     } else {

@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link } from "react-router";
 import Cinput from "../components/Cinput";
-import { sendRegistrationRequest } from "../utils/api";
+import { apiCall, sendRegistrationRequest } from "../utils/api/auth";
 import { VALIDATION_SCHEME } from "../utils/validation";
 import { ButtonSubmit } from "../components/ButtonSubmit";
 import { UserContext } from "../utils/context";
@@ -26,7 +26,7 @@ export default function Register() {
       confirm_password: confirmPassword,
     };
 
-    const tokens = await sendRegistrationRequest(formData);
+    const tokens = await apiCall("/auth/register/", "POST", "", formData);
 
     if (tokens) {
       localStorage.setItem("access", tokens.access);
