@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { UserContext } from "../utils/context";
 import { ButtonPrimary } from "../components/ButtonPrimary";
 import { apiCall, logout } from "../utils/api/auth";
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   const {
@@ -20,19 +21,25 @@ export default function Home() {
 
   return (
     <>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-        {isAuthorized ? (
-          <>
-            <h3 className="mb-3">
-              Welcome, юзернейм имени которого я не знаю потому что мне пришлось
-              убирать контекст, но имя которого я могу получить запросом в любой
-              момент если понадобится!
-            </h3>
-            <ButtonPrimary text="GetMe" clickHandler={handleMeClick} />
-            <ButtonPrimary text="Logout" clickHandler={handleUserLogout} />
-          </>
-        ) : (
-          <>
+      {isAuthorized ? (
+        <div className="flex">
+          <Sidebar />
+          <div className="relative w-2/3">
+            {/* контент тут */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+              <h3 className="mb-3">
+                Welcome, юзернейм имени которого я не знаю потому что мне
+                пришлось убирать контекст, но имя которого я могу получить
+                запросом в любой момент если понадобится!
+              </h3>
+              <ButtonPrimary text="GetMe" clickHandler={handleMeClick} />
+              <ButtonPrimary text="Logout" clickHandler={handleUserLogout} />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
             <h3 className="mb-10 text-3xl">You should authorize first</h3>
             <div className="flex justify-evenly">
               <Link
@@ -49,9 +56,9 @@ export default function Home() {
                 Login
               </Link>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
