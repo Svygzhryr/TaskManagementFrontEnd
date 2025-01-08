@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { Link } from "react-router";
 import Cinput from "../components/Cinput";
-import { apiCall, sendRegistrationRequest } from "../utils/api/auth";
+import { apiCall } from "../utils/api/auth";
 import { VALIDATION_SCHEME } from "../utils/validation";
 import { ButtonSubmit } from "../components/ButtonSubmit";
 import { UserContext } from "../utils/context";
@@ -31,7 +31,6 @@ export default function Register() {
     if (tokens) {
       localStorage.setItem("access", tokens.access);
       localStorage.setItem("refresh", tokens.refresh);
-      localStorage.setItem("username", tokens.username);
       setData(tokens);
       window.location.href = "/";
     } else {

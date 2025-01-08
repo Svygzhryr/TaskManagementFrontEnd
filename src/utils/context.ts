@@ -17,7 +17,7 @@ export const initialData = {
   access: localStorage.getItem("access") ?? null,
   refresh: localStorage.getItem("refresh") ?? null,
   get isAuthorized() {
-    return !!this.username && !!this.access;
+    return !!this.access;
   },
 };
 

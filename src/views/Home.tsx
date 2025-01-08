@@ -2,17 +2,15 @@ import { useContext } from "react";
 import { Link } from "react-router";
 import { UserContext } from "../utils/context";
 import { ButtonPrimary } from "../components/ButtonPrimary";
-import { apiCall } from "../utils/api/auth";
+import { apiCall, logout } from "../utils/api/auth";
 
-export default function Login() {
+export default function Home() {
   const {
     data: { isAuthorized },
   } = useContext(UserContext);
 
   function handleUserLogout() {
-    apiCall("/auth/logout", "POST", "logout");
-    localStorage.clear();
-    window.location.reload();
+    logout();
   }
 
   async function handleMeClick() {
@@ -27,7 +25,8 @@ export default function Login() {
           <>
             <h3 className="mb-3">
               Welcome, юзернейм имени которого я не знаю потому что мне пришлось
-              убирать контекст!
+              убирать контекст, но имя которого я могу получить запросом в любой
+              момент если понадобится!
             </h3>
             <ButtonPrimary text="GetMe" clickHandler={handleMeClick} />
             <ButtonPrimary text="Logout" clickHandler={handleUserLogout} />
