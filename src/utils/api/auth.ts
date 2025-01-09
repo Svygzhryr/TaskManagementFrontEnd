@@ -103,11 +103,11 @@ export async function apiCall(
         }
 
         if (currentDate > tokenExpires) {
-          refreshTokens();
+          await refreshTokens();
 
           if (retries < 5) {
-            apiCall(endpoint, method, options, formData);
             retries++;
+            return apiCall(endpoint, method, options, formData);
           }
         }
       } else {

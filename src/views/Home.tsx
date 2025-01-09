@@ -24,7 +24,7 @@ export default function Home() {
       {isAuthorized ? (
         <div className="flex">
           <Sidebar />
-          <div className="relative w-2/3">
+          <div className="relative w-full">
             {/* контент тут */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
               <h3 className="mb-3">
