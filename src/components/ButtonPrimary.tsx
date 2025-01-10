@@ -1,9 +1,5 @@
 import { FC } from "react";
-
-interface ButtonPrimaryProps {
-  text: string;
-  clickHandler?: () => void;
-}
+import { ButtonPrimaryProps } from "../utils/types";
 
 export const ButtonPrimary: FC<ButtonPrimaryProps> = ({
   text,

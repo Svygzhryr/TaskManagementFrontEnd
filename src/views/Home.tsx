@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { UserContext } from "../utils/context";
 import { ButtonPrimary } from "../components/ButtonPrimary";
 import { apiCall, logout } from "../utils/api/auth";
+import Notification from "../components/Notification";
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
@@ -36,6 +37,7 @@ export default function Home() {
               <ButtonPrimary text="Logout" clickHandler={handleUserLogout} />
             </div>
           </div>
+          <Notification message="Hello world" type="error" />
         </div>
       ) : (
         <>

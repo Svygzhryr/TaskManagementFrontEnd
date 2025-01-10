@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch } from "react";
 
 export interface CinputProps {
   placeholder: string;
@@ -23,6 +23,20 @@ export interface AuthResponse {
 export interface Tokens {
   access: string;
   refresh: string;
+}
+
+export interface ProjectCreateFormProps {
+  setIsFormActive: Dispatch<React.SetStateAction<boolean>>;
+}
+
+export interface ButtonPrimaryProps {
+  text: string;
+  clickHandler?: () => void;
+}
+
+export interface NotificationProps {
+  message: string;
+  type?: "default" | "alert" | "error";
 }
 
 export type LoginFormData = Pick<RegistrationFormData, "username" | "password">;
