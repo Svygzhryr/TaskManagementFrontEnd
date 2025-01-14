@@ -39,4 +39,11 @@ export interface NotificationProps {
   type?: "default" | "alert" | "error";
 }
 
+export type Endpoint = "auth" | "task";
+
+export interface ApiCallOptions {
+  logout?: boolean;
+  endpoint?: Endpoint;
+}
+
 export type LoginFormData = Pick<RegistrationFormData, "username" | "password">;

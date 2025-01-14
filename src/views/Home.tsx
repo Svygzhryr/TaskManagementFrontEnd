@@ -17,7 +17,6 @@ export default function Home() {
 
   async function handleMeClick() {
     const response = await apiCall("/auth/user", "GET");
-    console.log(response);
   }
 
   return (
@@ -37,7 +36,7 @@ export default function Home() {
               <ButtonPrimary text="Logout" clickHandler={handleUserLogout} />
             </div>
           </div>
-          <Notification message="Hello world" type="error" />
+          {/* <Notification message="Hello world" type="error" /> */}
         </div>
       ) : (
         <>

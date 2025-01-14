@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { ApiCallOptions, Endpoint } from "../types";
 
 export const auth = {
   access: localStorage.getItem("access") ?? null,
@@ -7,9 +8,19 @@ export const auth = {
 
 let retries = 0;
 
+function definePort(endpoint: Endpoint) {
+  const portMap = {
+    auth: import.meta.env.VITE_BACKEND_PORT_AUTH,
+    task: import.meta.env.VITE_BACKEND_PORT_TASK,
+    // остальные эндпоинты пойдут сюда
+  };
+
+  return portMap[endpoint];
+}
+
 export async function logout() {
-  apiCall("/auth/logout", "POST", "logout");
-  // возможно тут надо будет потом уточнять если ещё что-то хранить будем
+  apiCall("/auth/logout", "POST", { logout: true });
+  // возможно тут надо будет потом уточнять какие ключи удалять если ещё что-то хранить будем
   localStorage.clear();
   window.location.reload();
 }
@@ -48,9 +59,9 @@ export async function refreshTokens() {
 }
 
 export async function apiCall(
-  endpoint: string,
+  path: string,
   method: string,
-  options?: string,
+  options?: ApiCallOptions,
   formData?: object,
 ) {
   try {
@@ -59,7 +70,7 @@ export async function apiCall(
     const requestOptions = {
       method,
       ...(method !== "GET" && { body }),
-      ...(options === "logout" && {
+      ...(options?.logout && {
         body: JSON.stringify({ refresh: auth.refresh }),
       }),
       headers: {
@@ -68,11 +79,8 @@ export async function apiCall(
       },
     };
 
-    console.log(localStorage.getItem("access"));
-    console.log(access, refresh);
-
     const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}${endpoint}`,
+      `${import.meta.env.VITE_BACKEND_URL}:${definePort(options?.endpoint ?? "auth")}${path}`,
       requestOptions,
     );
 
@@ -82,7 +90,6 @@ export async function apiCall(
       return data;
     } else {
       if (response.status === 401 && access && refresh) {
-        console.log(access);
         const { exp } = jwtDecode(access);
         const { exp: refreshExpire } = jwtDecode(refresh);
 
@@ -107,7 +114,7 @@ export async function apiCall(
 
           if (retries < 5) {
             retries++;
-            return apiCall(endpoint, method, options, formData);
+            return apiCall(path, method, options, formData);
           }
         }
       } else {

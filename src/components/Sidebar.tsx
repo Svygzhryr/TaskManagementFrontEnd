@@ -13,7 +13,10 @@ export default function Sidebar() {
   const [isFormActive, setIsFormActive] = useState(false);
 
   async function getProjects() {
-    const requestProjects = await apiCall("/project/", "GET");
+    const requestProjects = await apiCall("/project", "GET", {
+      endpoint: "task",
+    });
+    console.log(requestProjects);
     setProjects(requestProjects ?? []);
   }
 

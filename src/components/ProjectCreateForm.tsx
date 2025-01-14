@@ -30,7 +30,7 @@ const ProjectCreateForm: FC<ProjectCreateFormProps> = ({ setIsFormActive }) => {
       // users
     };
 
-    await apiCall("/project/", "POST", "", body);
+    await apiCall("/project/", "POST", {}, body);
   }
 
   return (

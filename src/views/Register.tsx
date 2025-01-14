@@ -26,7 +26,7 @@ export default function Register() {
       confirm_password: confirmPassword,
     };
 
-    const tokens = await apiCall("/auth/register/", "POST", "", formData);
+    const tokens = await apiCall("/auth/register/", "POST", {}, formData);
 
     if (tokens) {
       localStorage.setItem("access", tokens.access);

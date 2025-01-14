@@ -23,8 +23,7 @@ export default function Login() {
       password,
     };
 
-    const tokens = await apiCall("/auth/login", "POST", "", formData);
-    console.log(tokens);
+    const tokens = await apiCall("/auth/login", "POST", {}, formData);
 
     if (tokens) {
       localStorage.setItem("access", tokens.access);
