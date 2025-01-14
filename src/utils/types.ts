@@ -32,6 +32,7 @@ export interface ProjectCreateFormProps {
 export interface ButtonPrimaryProps {
   text: string;
   clickHandler?: () => void;
+  disabled?: boolean;
 }
 
 export interface NotificationProps {

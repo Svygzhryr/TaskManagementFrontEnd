@@ -30,7 +30,7 @@ const ProjectCreateForm: FC<ProjectCreateFormProps> = ({ setIsFormActive }) => {
       // users
     };
 
-    await apiCall("/project/", "POST", {}, body);
+    await apiCall("/project/", "POST", { endpoint: "task" }, body);
   }
 
   return (
@@ -52,7 +52,11 @@ const ProjectCreateForm: FC<ProjectCreateFormProps> = ({ setIsFormActive }) => {
         {/* <Cinput placeholder="Invite some people" type="text" /> */}
         <div className="flex justify-center">
           <ButtonPrimary text="Cancel" clickHandler={handleFormClose} />
-          <ButtonPrimary text="Create" clickHandler={handleCreateProject} />
+          <ButtonPrimary
+            disabled={!name || !desc}
+            text="Create"
+            clickHandler={handleCreateProject}
+          />
         </div>
       </div>
     </>

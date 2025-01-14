@@ -17,6 +17,7 @@ export default function Home() {
 
   async function handleMeClick() {
     const response = await apiCall("/auth/user", "GET");
+    console.log(response);
   }
 
   return (

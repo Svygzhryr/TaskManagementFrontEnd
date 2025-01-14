@@ -6,13 +6,12 @@ export const auth = {
   refresh: localStorage.getItem("refresh") ?? null,
 };
 
-let retries = 0;
-
 function definePort(endpoint: Endpoint) {
   const portMap = {
     auth: import.meta.env.VITE_BACKEND_PORT_AUTH,
     task: import.meta.env.VITE_BACKEND_PORT_TASK,
     // остальные эндпоинты пойдут сюда
+    // и в .энв
   };
 
   return portMap[endpoint];
@@ -27,10 +26,9 @@ export async function logout() {
 
 export async function refreshTokens() {
   try {
-    retries = 0;
     const { access, refresh } = auth;
     const response = await fetch(
-      `${import.meta.env.VITE_BACKEND_URL}/auth/refresh`,
+      `${import.meta.env.VITE_BACKEND_URL}:${import.meta.env.VITE_BACKEND_PORT_AUTH}/auth/refresh`,
       {
         method: "POST",
         headers: {
@@ -44,6 +42,8 @@ export async function refreshTokens() {
     if (response.ok) {
       const tokens = await response.json();
       const { access, refresh } = tokens;
+
+      console.log(access, refresh);
 
       localStorage.setItem("access", access);
       localStorage.setItem("refresh", refresh);
@@ -63,6 +63,7 @@ export async function apiCall(
   method: string,
   options?: ApiCallOptions,
   formData?: object,
+  retries = 0,
 ) {
   try {
     const { access, refresh } = auth;
@@ -93,17 +94,9 @@ export async function apiCall(
         const { exp } = jwtDecode(access);
         const { exp: refreshExpire } = jwtDecode(refresh);
 
-        console.log(
-          "EXPIRATION \n",
-          `current date - ${new Date(Date.now())} \n`,
-          `token expires - ${new Date(exp! * 1000)}`,
-        );
-
         const currentDate = new Date(Date.now());
         const tokenExpires = new Date(exp! * 1000);
         const refreshTokenExpires = new Date(refreshExpire! * 1000);
-
-        console.log(tokenExpires, refreshTokenExpires);
 
         if (currentDate > refreshTokenExpires) {
           logout();
@@ -113,8 +106,7 @@ export async function apiCall(
           await refreshTokens();
 
           if (retries < 5) {
-            retries++;
-            return apiCall(path, method, options, formData);
+            return apiCall(path, method, options, formData, retries + 1);
           }
         }
       } else {
